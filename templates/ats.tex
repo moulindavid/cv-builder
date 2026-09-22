@@ -1,0 +1,48 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[a4paper,margin=1.45cm]{geometry}
+\usepackage{fontspec}
+\usepackage[unicode,hidelinks]{hyperref}
+\setmainfont{Latin Modern Sans}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=2em
+\newcommand{\cvsection}[1]{\vspace{6pt}{\large\bfseries #1}\par\vspace{1pt}\hrule\vspace{3pt}}
+\begin{document}
+{\LARGE\bfseries {{esc .Resume.Profile.Name}}}\\
+{\large\bfseries {{esc (text .Resume.Profile.Titles)}}}\\
+{{esc .Resume.Contact.Location}} \enspace|\enspace \href{mailto:{{.Resume.Contact.Email}}}{\nolinkurl{ {{- .Resume.Contact.Email -}} }} \enspace|\enspace {{esc .Resume.Contact.Phone}}\\
+{\small {{with index .Resume.Links 0}}\href{ {{.URL}} }{\textbf{Web}: \nolinkurl{ {{displayURL .URL}} }}{{end}} \enspace|\enspace {{with index .Resume.Links 1}}\href{ {{.URL}} }{\textbf{LinkedIn}: \nolinkurl{ {{displayURL .URL}} }}{{end}} \enspace|\enspace {{with index .Resume.Links 2}}\href{ {{.URL}} }{\textbf{GitHub}: \nolinkurl{ {{displayURL .URL}} }}{{end}}}
+
+\cvsection{ {{- index .Labels "summary" -}} }
+{{esc (text .Resume.Summaries)}}
+
+\cvsection{ {{- index .Labels "experience" -}} }
+{{range .Resume.Experience}}
+\begin{minipage}{\textwidth}
+\textbf{ {{- esc .Company -}} }{{if .Location}} --- {{esc .Location}}{{end}}\\
+{{if text .Roles}}\textbf{ {{- esc (text .Roles) -}} }\\
+{{end}}{{esc (period .Start .End)}}
+
+{{esc (text .Descriptions)}}
+\begin{itemize}
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+{{range .Bullets}}\item {{esc (text .Text)}}
+{{end}}\end{itemize}
+\textit{Technologies: {{esc (tech .Technologies)}}}
+\end{minipage}\par\vspace{3pt}
+{{end}}
+\cvsection{ {{- index .Labels "skills" -}} }
+{{range .Skills}}\textbf{ {{- esc .Name -}} }: {{range $i, $skill := .Skills}}{{if $i}}, {{end}}{{esc $skill.Name}}{{end}}\\
+{{end}}
+\cvsection{ {{- index .Labels "education" -}} }
+{{range .Resume.Education}}\textbf{ {{- esc .Institution -}} }\\
+{{esc (text .Degrees)}}{{if .Start}} --- {{esc .Start}}{{if .End}}--{{esc .End}}{{end}}{{end}}
+{{end}}
+{{if .Resume.Languages}}\cvsection{ {{- index .Labels "languages" -}} }
+{{range .Resume.Languages}}{{esc (text .Name)}}: {{esc (text .Level)}}\\{{end}}{{end}}
+\end{document}

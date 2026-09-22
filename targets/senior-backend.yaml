@@ -1,0 +1,6 @@
+name: senior-backend
+titles:
+  fr: Senior Backend Engineer — Java / Systèmes distribués
+  en: Senior Backend Engineer — Java / Distributed Systems
+priorities: [java, spring, distributed-systems, postgresql, messaging, cloud]
+max_bullets: 6
