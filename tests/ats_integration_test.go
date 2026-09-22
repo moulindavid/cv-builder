@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 
 	"github.com/moulindavid/cv-builder/internal/ats"
@@ -50,10 +51,16 @@ func TestPDFATSReadingOrder(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := ats.CheckOrder(text, "DAVID MOULIN", "SUMMARY", "EXPERIENCE", "TECHNICAL SKILLS", "EDUCATION"); err != nil {
+	if err := ats.CheckOrder(text, "DAVID MOULIN", "SUMMARY", "TECHNICAL SKILLS", "EXPERIENCE", "EDUCATION"); err != nil {
 		t.Fatalf("%v\nExtracted text:\n%s", err, text)
 	}
-	if !bytes.Contains([]byte(text), []byte("Benefiz")) {
-		t.Fatal("Benefiz missing from extracted text")
+	essential := []string{"David Moulin", "moulin.david@live.fr", "Benefiz", "Télécom Saint-Étienne"}
+	for _, value := range essential {
+		if !bytes.Contains([]byte(text), []byte(value)) {
+			t.Fatalf("%q missing from extracted text", value)
+		}
+		if count := strings.Count(text, value); count != 1 {
+			t.Fatalf("%q occurs %d times, want once", value, count)
+		}
 	}
 }

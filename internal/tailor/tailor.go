@@ -13,11 +13,13 @@ type Match struct {
 	Keyword string
 	Present bool
 }
+
 type Report struct {
 	Score            int
 	Matches          []Match
 	Missing          []string
 	RankedSkills     []resume.Skill
+	Priorities       []string
 	SuggestedSummary string
 }
 
@@ -37,54 +39,77 @@ func ApplyTarget(r resume.Resume, t resume.Target, lang string) resume.Resume {
 	}
 	return r
 }
+
 func Analyze(r resume.Resume, job, lang string) Report {
-	known := map[string]resume.Skill{}
-	for _, skill := range r.Skills {
-		known[normalize(skill.Name)] = skill
-		known[normalize(skill.ID)] = skill
-	}
-	jobText := normalize(job)
-	seen := map[string]bool{}
-	var matches []Match
-	var found []resume.Skill
-	for key, skill := range known {
-		if !seen[skill.ID] && containsKeyword(jobText, key) {
-			seen[skill.ID] = true
-			matches = append(matches, Match{Keyword: skill.Name, Present: true})
-			found = append(found, skill)
+	jobText := normalizeText(job)
+	found := make([]resume.Skill, 0)
+	matches := make([]Match, 0)
+	knownTerms := make(map[string]bool)
+	priorities := make([]string, 0)
+	seenPriorities := make(map[string]bool)
+	addPriority := func(value string) {
+		key := normalizeText(value)
+		if key != "" && !seenPriorities[key] {
+			priorities = append(priorities, value)
+			seenPriorities[key] = true
 		}
 	}
-	var missing []string
-	for _, keyword := range externalKeywords {
-		key := normalize(keyword)
-		if containsKeyword(jobText, key) {
-			if _, exists := known[key]; !exists {
-				missing = append(missing, keyword)
+
+	for _, skill := range r.Skills {
+		terms := append([]string{skill.Name, skill.ID}, skill.Aliases...)
+		matched := false
+		for _, term := range terms {
+			normalized := normalizeText(term)
+			knownTerms[normalized] = true
+			if containsKeyword(jobText, normalized) {
+				matched = true
+			}
+		}
+		if matched {
+			matches = append(matches, Match{Keyword: skill.Name, Present: true})
+			found = append(found, skill)
+			addPriority(skill.ID)
+		}
+		for _, tag := range skill.Tags {
+			if containsKeyword(jobText, normalizeText(tag)) {
+				addPriority(tag)
 			}
 		}
 	}
+	for _, experience := range r.Experience {
+		for _, bullet := range experience.Bullets {
+			for _, tag := range bullet.Tags {
+				if containsKeyword(jobText, normalizeText(tag)) {
+					addPriority(tag)
+				}
+			}
+		}
+	}
+
+	missing := make([]string, 0)
+	for _, keyword := range r.Tailoring.ExternalKeywords {
+		key := normalizeText(keyword)
+		if containsKeyword(jobText, key) && !knownTerms[key] {
+			missing = append(missing, keyword)
+		}
+	}
 	sort.Strings(missing)
+
 	score := 0
 	if total := len(found) + len(missing); total > 0 {
 		score = 100 * len(found) / total
 	}
-	return Report{Score: score, Matches: matches, Missing: missing, RankedSkills: found, SuggestedSummary: r.Summaries.Get(lang)}
-}
-
-var externalKeywords = []string{
-	"AWS", "Azure", "C#", "Kafka", "Kubernetes", "Node.js", "Python", "Terraform",
+	return Report{
+		Score: score, Matches: matches, Missing: missing, RankedSkills: found,
+		Priorities: priorities, SuggestedSummary: r.Summaries.Get(lang),
+	}
 }
 
 func containsKeyword(text, keyword string) bool {
 	if keyword == "" {
 		return false
 	}
-	for _, token := range tokenize(text) {
-		if normalize(token) == keyword {
-			return true
-		}
-	}
-	return false
+	return strings.Contains(" "+text+" ", " "+keyword+" ")
 }
 
 func Format(rep Report) string {
@@ -99,26 +124,42 @@ func Format(rep Report) string {
 	fmt.Fprintf(&b, "Suggested summary (source-safe): %s\n", rep.SuggestedSummary)
 	return b.String()
 }
+
 func weights(p []string) map[string]int {
 	m := map[string]int{}
 	for i, v := range p {
-		m[normalize(v)] = len(p) - i
+		m[normalizeText(v)] = len(p) - i
 	}
 	return m
 }
+
 func scoreSkill(s resume.Skill, w map[string]int) int {
-	return w[normalize(s.ID)] + w[normalize(s.Name)] + scoreTags(s.Tags, w)
+	return w[normalizeText(s.ID)] + w[normalizeText(s.Name)] + scoreTags(s.Tags, w)
 }
+
 func scoreTags(tags []string, w map[string]int) int {
 	n := 0
 	for _, t := range tags {
-		n += w[normalize(t)]
+		n += w[normalizeText(t)]
 	}
 	return n
 }
-func normalize(s string) string {
-	return strings.ToLower(strings.Trim(strings.TrimSpace(s), ".,;:!?()[]{}"))
-}
-func tokenize(s string) []string {
-	return strings.FieldsFunc(s, func(r rune) bool { return !unicode.IsLetter(r) && !unicode.IsDigit(r) && r != '-' && r != '.' })
+
+func normalizeText(s string) string {
+	var b strings.Builder
+	space := true
+	for _, r := range strings.ToLower(s) {
+		if unicode.IsLetter(r) || unicode.IsDigit(r) || r == '+' || r == '#' || r == '.' {
+			b.WriteRune(r)
+			space = false
+		} else if !space {
+			b.WriteByte(' ')
+			space = true
+		}
+	}
+	fields := strings.Fields(b.String())
+	for i := range fields {
+		fields[i] = strings.Trim(fields[i], ".")
+	}
+	return strings.Join(fields, " ")
 }

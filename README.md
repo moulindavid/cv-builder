@@ -33,12 +33,12 @@ sudo dnf install golang texlive-luatex texlive-collection-latexrecommended poppl
 ```sh
 make setup
 make test
-make vet
+make lint
 make build
 make resume
 ```
 
-Les PDF sont créés dans `output/` :
+Les noms de fichiers sont dérivés du nom du profil, du target et de la langue. Les PDF fournis par `make resume` sont créés dans `output/` :
 
 - `david-moulin-senior-backend-fr.pdf`
 - `david-moulin-senior-backend-en.pdf`
@@ -53,16 +53,18 @@ Les PDF et fichiers LaTeX générés ne sont pas versionnés : ils sont reproduc
 ./bin/cv build --lang en
 ./bin/cv build --lang en --target senior-backend
 ./bin/cv build --target targets/senior-backend.yaml
-./bin/cv extract-text --lang en
+./bin/cv extract-text --lang en --target senior-backend
 ./bin/cv extract-text --pdf output/example.pdf
 ./bin/cv tailor --job job.txt --lang en
+./bin/cv tailor --job job.txt --lang en --build
+./bin/cv tailor --job job.txt --lang en --build --max-bullets 4
 ```
 
-`build` valide toujours le YAML avant le rendu. `extract-text` affiche exactement le texte vu par `pdftotext`.
+`build` valide toujours le YAML avant le rendu. Sans target, il produit un fichier `*-resume-<lang>.pdf`. `extract-text` accepte le même `--target` que `build`; `--pdf` permet toujours de viser un fichier explicite.
 
 ## Structure des données
 
-`data/resume.yaml` contient `profile`, `contact`, `summaries`, `skills`, `experience`, `education`, `languages` et `links`. Les champs `text`, `roles`, `titles`, `descriptions` et `degrees` sont des objets localisés :
+`data/resume.yaml` contient `profile`, `contact`, `summaries`, `skills`, `experience`, `education`, `languages`, `links` et la configuration `tailoring`. Les champs `text`, `roles`, `titles`, `descriptions` et `degrees` sont des objets localisés :
 
 ```yaml
 text:
@@ -70,7 +72,7 @@ text:
   en: Developed a REST API.
 ```
 
-Les technologies d'une expérience référencent les `id` des skills. La validation rejette toute référence inconnue, les identifiants dupliqués, les traductions obligatoires manquantes, un email incorrect et une URL invalide.
+Les technologies d'une expérience référencent les `id` des skills. La validation rejette notamment les références inconnues, les identifiants dupliqués, les traductions obligatoires manquantes, les catégories inconnues, les dates invalides ou incohérentes, un email incorrect et une URL invalide.
 
 ### Ajouter une expérience
 
@@ -78,13 +80,14 @@ Ajouter un objet à `experience`, avec un `id` stable, les faits, les textes FR/
 
 ### Ajouter une compétence
 
-Ajouter à `skills` un `id` stable, son libellé, sa catégorie et ses tags :
+Ajouter à `skills` un `id` stable, son libellé, sa catégorie et ses tags. Le champ optionnel `aliases` contient uniquement des noms explicites équivalents utilisés pour le matching d'offres :
 
 ```yaml
 - id: java
   name: Java
   category: Langages
   tags: [java, backend]
+  aliases: [JVM]
 ```
 
 ### Créer un target
@@ -100,12 +103,26 @@ priorities: [java, postgresql, messaging]
 max_bullets: 5
 ```
 
-Les priorités réordonnent les compétences et bullets par correspondance avec leurs IDs/tags. `max_bullets` peut limiter les bullets par expérience. Un target ne crée aucun contenu.
+Les priorités réordonnent les compétences et bullets par correspondance avec leurs IDs/tags. `max_bullets` peut limiter les bullets par expérience. Un target ne crée aucun contenu. Lors d’un build, son nom, ses langues, ses priorités et `max_bullets` sont validés contre le CV.
 
 ## Tailoring
 
-`cv tailor` normalise le texte de l'offre, recherche les compétences connues, produit un score indicatif et affiche les correspondances ainsi qu'un résumé existant sûr. La V1 est volontairement déterministe et locale. Les mots absents ne sont jamais injectés dans le CV. Le score mesure la part du catalogue de compétences mentionnée par l'offre ; ce n'est pas une probabilité de recrutement.
+`cv tailor` normalise le texte de l'offre, recherche de manière déterministe les noms, IDs et aliases explicites des compétences connues (y compris les expressions multi-mots), produit un score indicatif et affiche les correspondances ainsi qu'un résumé existant sûr. Les tags présents dans l'offre servent uniquement à classer les skills et bullets, pas à déclarer artificiellement une compétence comme correspondante.
+
+Le catalogue `tailoring.external_keywords` du YAML définit les technologies externes que le rapport peut signaler comme absentes. `--build` génère `output/<nom>-tailored-<lang>.pdf`; `--max-bullets` peut limiter les bullets après classement. Le tailoring reste local et déterministe : une technologie absente du CV n'est jamais injectée. Le score mesure la part des compétences détectées parmi les compétences détectées et les mots-clés externes absents ; ce n'est pas une probabilité de recrutement.
 
 ## Tests ATS
 
-Le test `tests/ats_integration_test.go` rend un `.tex`, compile un PDF, lance `pdftotext`, vérifie la présence de contenu et l'ordre `NAME → SUMMARY → TECHNICAL SKILLS → EXPERIENCE → EDUCATION`. Il est ignoré avec un motif explicite si `lualatex` ou `pdftotext` manque.
+Le test `tests/ats_integration_test.go` rend un `.tex`, compile un PDF, lance `pdftotext`, vérifie l’ordre `NAME → SUMMARY → TECHNICAL SKILLS → EXPERIENCE → EDUCATION`, les informations essentielles et leur absence de duplication. Il est ignoré avec un motif explicite si `lualatex` ou `pdftotext` manque.
+
+
+## Vérification et qualité
+
+```sh
+make test       # tests unitaires et intégration ATS si les outils sont présents
+make lint       # gofmt puis go vet
+make resume     # validation, rendu et compilation FR/EN
+./bin/cv extract-text --lang en --target senior-backend
+```
+
+La sortie de `extract-text` doit conserver un ordre linéaire, des coordonnées et URLs extractibles, puis les sections résumé, compétences, expérience et formation. Le test ATS est skipped proprement si LuaLaTeX ou `pdftotext` n’est pas installé.

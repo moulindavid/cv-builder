@@ -11,6 +11,8 @@ contact:
 summaries:
   fr: Senior Backend Engineer avec plus de 8 ans d’expérience dans la conception et l’exploitation de plateformes SaaS et de systèmes transactionnels. Spécialisé en Java/Spring, PostgreSQL et systèmes distribués, avec une forte expérience des problématiques de facturation, paiements, messaging asynchrone, performance et production.
   en: Senior Backend Engineer with 8+ years of experience designing and operating SaaS platforms and transactional systems. Specialized in Java/Spring, PostgreSQL, and distributed systems, with strong experience in billing, payments, asynchronous messaging, performance, and production operations.
+tailoring:
+  external_keywords: [AWS, Azure, C#, Kafka, Kubernetes, Node.js, Python, Terraform]
 skills:
   - {id: java, name: Java, category: experience-only, tags: [java, backend]}
   - {id: java25, name: Java 25, category: backend, tags: [java, backend, java-25, lts]}
@@ -31,7 +33,7 @@ skills:
   - {id: pubsub, name: Google Cloud Pub/Sub, category: distributed, tags: [messaging, gcp, distributed-systems]}
   - {id: docker, name: Docker, category: platform, tags: [containers]}
   - {id: gcp, name: GCP, category: platform, tags: [cloud]}
-  - {id: aws-s3, name: AWS S3, category: platform, tags: [cloud, storage]}
+  - {id: aws-s3, name: AWS S3, category: platform, tags: [cloud, storage], aliases: [AWS]}
   - {id: argocd, name: ArgoCD, category: platform, tags: [deployment]}
   - {id: jenkins, name: Jenkins, category: platform, tags: [ci]}
   - {id: git, name: Git, category: tooling, tags: [vcs]}

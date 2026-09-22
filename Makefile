@@ -1,7 +1,7 @@
 GO ?= go
 CV := ./bin/cv
 
-.PHONY: setup fmt test vet build resume clean
+.PHONY: setup fmt test vet lint build resume clean
 setup:
 	$(GO) mod download
 	@command -v lualatex >/dev/null || { echo "Missing lualatex (install texlive-luatex and recommended fonts/packages)"; exit 1; }
@@ -12,6 +12,7 @@ test:
 	$(GO) test ./...
 vet:
 	$(GO) vet ./...
+lint: fmt vet
 build:
 	mkdir -p bin
 	$(GO) build -o $(CV) ./cmd/cv

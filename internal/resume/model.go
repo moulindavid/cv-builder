@@ -13,6 +13,7 @@ type Resume struct {
 	Education  []Education  `yaml:"education"`
 	Languages  []Language   `yaml:"languages"`
 	Links      []Link       `yaml:"links"`
+	Tailoring  Tailoring    `yaml:"tailoring"`
 }
 
 type Profile struct {
@@ -30,6 +31,7 @@ type Skill struct {
 	Name     string   `yaml:"name"`
 	Category string   `yaml:"category"`
 	Tags     []string `yaml:"tags"`
+	Aliases  []string `yaml:"aliases"`
 }
 type Bullet struct {
 	ID   string    `yaml:"id"`
@@ -62,6 +64,10 @@ type Link struct {
 	Label string `yaml:"label"`
 	URL   string `yaml:"url"`
 }
+type Tailoring struct {
+	ExternalKeywords []string `yaml:"external_keywords"`
+}
+
 type Target struct {
 	Name       string    `yaml:"name"`
 	Titles     Localized `yaml:"titles"`
