@@ -51,10 +51,10 @@ func TestPDFATSReadingOrder(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := ats.CheckOrder(text, "DAVID MOULIN", "SUMMARY", "TECHNICAL SKILLS", "EXPERIENCE", "EDUCATION"); err != nil {
+	if err := ats.CheckOrder(text, "DAVID MOULIN", "SUMMARY", "TECHNICAL SKILLS", "EXPERIENCE", "PERSONAL PROJECTS", "EDUCATION", "LANGUAGES"); err != nil {
 		t.Fatalf("%v\nExtracted text:\n%s", err, text)
 	}
-	essential := []string{"David Moulin", "moulin.david@live.fr", "Benefiz", "Télécom Saint-Étienne"}
+	essential := []string{"David Moulin", "moulin.david@live.fr", "Benefiz", "Local RAG", "English - professional working proficiency", "Télécom Saint-Étienne"}
 	for _, value := range essential {
 		if !bytes.Contains([]byte(text), []byte(value)) {
 			t.Fatalf("%q missing from extracted text", value)

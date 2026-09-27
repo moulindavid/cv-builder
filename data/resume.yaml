@@ -1,16 +1,16 @@
 profile:
   name: David Moulin
   titles:
-    fr: Senior Backend Engineer — Java / Systèmes distribués
-    en: Senior Backend Engineer — Java / Distributed Systems
+    fr: Senior Backend Engineer - Java / Systèmes distribués
+    en: Senior Backend Engineer - Java / Distributed Systems
 contact:
   email: moulin.david@live.fr
   phone: "+33679800381"
   location: Lyon, France
   address: 1 rue de la Rosière, 69008 Lyon
 summaries:
-  fr: Senior Backend Engineer avec plus de 8 ans d’expérience dans la conception et l’exploitation de plateformes SaaS et de systèmes transactionnels. Spécialisé en Java/Spring, PostgreSQL et systèmes distribués, avec une forte expérience des problématiques de facturation, paiements, messaging asynchrone, performance et production.
-  en: Senior Backend Engineer with 8+ years of experience designing and operating SaaS platforms and transactional systems. Specialized in Java/Spring, PostgreSQL, and distributed systems, with strong experience in billing, payments, asynchronous messaging, performance, and production operations.
+  fr: Senior Backend Engineer avec plus de 8 ans d’expérience dans la conception et l’exploitation de plateformes SaaS et de systèmes transactionnels. Spécialisé en Java/Spring, PostgreSQL et systèmes distribués, avec une forte expérience de la facturation, des paiements, des traitements asynchrones, de la performance et de la production. Habitué à intervenir de la conception jusqu’à la mise en production et au suivi opérationnel.
+  en: Senior Backend Engineer with 8+ years of experience designing and operating SaaS platforms and transactional systems. Specialized in Java/Spring, PostgreSQL, and distributed systems, with strong experience in billing, payments, asynchronous processing, performance, and production. Experienced in owning delivery from design through production rollout and operations.
 tailoring:
   external_keywords: [AWS, Azure, C#, Kafka, Kubernetes, Node.js, Python, Terraform]
 skills:
@@ -18,7 +18,8 @@ skills:
   - {id: java25, name: Java 25, category: backend, tags: [java, backend, java-25, lts]}
   - {id: typescript, name: TypeScript, category: frontend, tags: [typescript, frontend]}
   - {id: go, name: Go, category: backend, tags: [go, backend]}
-  - {id: spring, name: Spring, category: backend, tags: [java, backend]}
+  - {id: ocaml, name: OCaml, category: project-only, tags: [ocaml, functional-programming]}
+  - {id: spring, name: Spring, category: experience-only, tags: [java, backend]}
   - {id: spring-boot, name: Spring Boot, category: backend, tags: [java, backend, microservices]}
   - {id: hibernate, name: Hibernate, category: historical, tags: [java, database]}
   - {id: spring-cloud, name: Spring Cloud, category: backend, tags: [java, microservices]}
@@ -26,9 +27,13 @@ skills:
   - {id: spring-batch, name: Spring Batch, category: backend, tags: [java, batch]}
   - {id: react, name: React, category: frontend, tags: [typescript, frontend]}
   - {id: postgresql, name: PostgreSQL, category: data, tags: [database, sql]}
+  - {id: pgvector, name: pgvector, category: project-only, tags: [postgresql, vector-database, rag]}
+  - {id: ollama, name: Ollama, category: project-only, tags: [llm, rag, local-ai]}
   - {id: mariadb, name: MariaDB, category: data, tags: [database, sql]}
   - {id: oracle, name: Oracle SQL, category: data, tags: [database, sql]}
   - {id: bigquery, name: BigQuery, category: data, tags: [gcp, data]}
+  - {id: dbt, name: dbt, category: production, tags: [data, analytics, sql, transformation]}
+  - {id: metabase, name: Metabase, category: production, tags: [data, analytics, reporting]}
   - {id: rabbitmq, name: RabbitMQ, category: distributed, tags: [messaging, distributed-systems]}
   - {id: pubsub, name: Google Cloud Pub/Sub, category: distributed, tags: [messaging, gcp, distributed-systems]}
   - {id: docker, name: Docker, category: platform, tags: [containers]}
@@ -36,13 +41,14 @@ skills:
   - {id: aws-s3, name: AWS S3, category: platform, tags: [cloud, storage], aliases: [AWS]}
   - {id: argocd, name: ArgoCD, category: platform, tags: [deployment]}
   - {id: jenkins, name: Jenkins, category: platform, tags: [ci]}
-  - {id: git, name: Git, category: tooling, tags: [vcs]}
-  - {id: jira, name: JIRA, category: tooling, tags: [project]}
+  - {id: git, name: Git, category: experience-only, tags: [vcs]}
+  - {id: jira, name: JIRA, category: experience-only, tags: [project]}
   - {id: liquibase, name: Liquibase, category: data, tags: [database, migrations]}
   - {id: elk, name: ELK, category: production, tags: [observability]}
+  - {id: datadog, name: Datadog, category: production, tags: [observability, monitoring, alerting, production]}
   - {id: stripe, name: Stripe, category: experience-only, tags: [payments, fintech]}
-  - {id: opensearch, name: OpenSearch, category: data, tags: [search]}
-  - {id: haystack, name: Haystack, category: data, tags: [search]}
+  - {id: opensearch, name: OpenSearch, category: experience-only, tags: [search]}
+  - {id: haystack, name: Haystack, category: experience-only, tags: [search]}
   - {id: vaadin, name: Vaadin, category: historical, tags: [java]}
   - {id: struts, name: Struts, category: historical, tags: [java]}
   - {id: angular, name: Angular, category: historical, tags: [frontend]}
@@ -61,7 +67,7 @@ experience:
     descriptions:
       fr: Développement et évolution d’une plateforme B2B/B2C de distribution de produits d’assurance collective et de titres restaurant, utilisée par des centaines de milliers d’affiliés, des milliers d’entreprises et de courtiers.
       en: Development and evolution of a B2B/B2C platform distributing group insurance and meal voucher products, used by hundreds of thousands of members and thousands of companies and brokers.
-    technologies: [java25, spring-boot, postgresql, rabbitmq, pubsub, docker, gcp, stripe, liquibase]
+    technologies: [java25, spring-boot, postgresql, rabbitmq, pubsub, docker, gcp, bigquery, dbt, metabase, stripe, liquibase, datadog]
     bullets:
       - id: backend-domains
         text:
@@ -75,8 +81,8 @@ experience:
         tags: [rabbitmq, pubsub, messaging, distributed-systems]
       - id: integrations
         text:
-          fr: Intégration de Stripe, Memobank, Payfit, Lucca, Malibou, Tessi et Amundi.
-          en: Integrated Stripe, Memobank, Payfit, Lucca, Malibou, Tessi, and Amundi.
+          fr: Intégration de Stripe, Swan, Memobank, Payfit, Lucca, Malibou, Tessi et Amundi.
+          en: Integrated Stripe, Swan, Memobank, Payfit, Lucca, Malibou, Tessi, and Amundi.
         tags: [integrations, payments]
       - id: database
         text:
@@ -85,15 +91,16 @@ experience:
         tags: [postgresql, liquibase, database]
       - id: production
         text:
-          fr: "Responsabilité opérationnelle sur les services en production : investigation et résolution d’incidents, hotfixes et corrections ciblées de données."
-          en: Owned operational support for production services, including incident investigation and resolution, hotfixes, and targeted data corrections.
-        tags: [production, database]
+          fr: Résolution d’un incident critique affectant une centaine de commandes de cartes, récupérées proactivement par republication Pub/Sub ; mise en place du suivi avec dbt, BigQuery et Metabase, ainsi que d’alertes Datadog, sans récidive observée depuis.
+          en: Resolved a critical incident affecting approximately 100 card orders, proactively recovered through Pub/Sub republication; implemented tracking with dbt, BigQuery, and Metabase plus Datadog alerts, with no recurrence observed since.
+        tags: [production, incident-response, pubsub, datadog, observability, dbt, bigquery, metabase]
       - id: architecture-business
         text:
-          fr: Participation collégiale aux décisions d’architecture et interaction directe avec les équipes métier pour cadrer et traduire les besoins.
-          en: Contributed to collaborative architecture decisions and worked directly with business teams to scope and translate requirements.
-        tags: [architecture, collaboration]
+          fr: Responsable technique principal de la brique de gestion des arrêts de travail et de leur indemnisation dans le cadre de la prévoyance collective, avec pilotage de bout en bout du besoin jusqu’à la mise en production.
+          en: Served as the primary technical owner for a group insurance module handling employee sick-leave claims and benefit payments, driving delivery end to end from requirements through production rollout.
+        tags: [architecture, technical-leadership, ownership, collaboration, delivery]
   - id: yseop
+    page_break_before: true
     company: Yseop
     roles: {fr: Développeur Full Stack, en: Full-Stack Developer}
     start: "2020"
@@ -101,11 +108,8 @@ experience:
     descriptions:
       fr: Création et amélioration d’une application web de génération de langage naturel pour des rapports financiers et médicaux, avec des API partenaires et des packs d’automatisation personnalisables.
       en: Built and enhanced a natural language generation web application for financial and medical reports, including partner APIs and customizable automation packs.
-    technologies: [java, spring, spring-cloud, spring-batch, docker, jenkins, mariadb, postgresql, react, aws-s3, opensearch, haystack]
+    technologies: [java, spring, spring-cloud, docker, mariadb, postgresql, aws-s3, opensearch]
     bullets:
-      - id: frontend
-        text: {fr: Création de composants React et gestion du store Redux., en: Built React components and managed Redux state.}
-        tags: [react, frontend]
       - id: workflows
         text: {fr: Développement de workflows pour le traitement de données et les appels aux moteurs de génération de langage naturel., en: Developed data-processing workflows and integrations with natural language generation engines.}
         tags: [backend, data]
@@ -116,65 +120,58 @@ experience:
         tags: [microservices, backend, database]
       - id: quality-storage
         text:
-          fr: Conteneurisation des microservices, tests automatisés avec Newman et Postman, et gestion de fichiers S3 avec Haystack et OpenSearch pour la recherche documentaire.
-          en: Containerized microservices, implemented automated tests with Newman and Postman, and managed S3 file storage with Haystack and OpenSearch for document search.
+          fr: Conteneurisation des microservices, automatisation de tests API avec Postman/Newman, stockage des documents sur AWS S3 et recherche avec Haystack/OpenSearch.
+          en: Containerized microservices, automated API testing with Postman/Newman, stored documents on AWS S3, and implemented search with Haystack/OpenSearch.
         tags: [docker, testing, aws-s3, opensearch]
   - id: itsf-smile
     company: ITSF via Smile
     roles: {fr: Développeur Java, en: Java Developer}
     start: "2019"
     end: "2020"
-    descriptions: {fr: Mission pour des entreprises du secteur télécom autour de plateformes de gestion d’abonnements et de traitement de demandes réglementaires., en: Consulting engagement for telecommunications companies on subscription management and regulatory request processing platforms.}
-    technologies: [java, spring, docker, jenkins, elk, mariadb, postgresql, rabbitmq]
-    bullets:
-      - id: backend
-        text: {fr: Développement de fonctionnalités backend et évolution du modèle de données., en: Developed backend features and evolved the data model.}
-        tags: [java, backend, database]
-      - id: design-maintenance
-        text:
-          fr: Participation aux discussions de conception et aux évolutions d’architecture, maintenance et amélioration d’une plateforme existante.
-          en: Contributed to design and architecture discussions while maintaining and improving an existing platform.
-        tags: [architecture, maintenance]
+    descriptions:
+      fr: Mission télécom sur des plateformes de gestion d’abonnements et de demandes réglementaires ; développement backend, évolution du modèle de données et maintenance de l’architecture existante.
+      en: Telecommunications engagement on subscription management and regulatory request platforms; backend development, data-model evolution, and maintenance of the existing architecture.
+    technologies: [java, spring, postgresql, rabbitmq, docker, elk]
+    bullets: []
   - id: ag2r-smile
     company: AG2R via Smile
     roles: {fr: Développeur Full Stack, en: Full-Stack Developer}
     start: "2019"
     end: "2019"
-    descriptions: {fr: Contribution à l’évolution d’une plateforme de vente en ligne de produits d’assurance., en: Contributed to the evolution of an online insurance product sales platform.}
-    technologies: [java, spring, struts, hibernate, oracle, angular]
-    bullets:
-      - id: development
-        text: {fr: Développement de fonctionnalités backend et évolution du modèle de données., en: Developed backend features and evolved the data model.}
-        tags: [java, backend, database]
-      - id: design-maintenance
-        text:
-          fr: Participation aux discussions de conception et aux évolutions d’architecture, maintenance et amélioration de la plateforme.
-          en: Contributed to design and architecture discussions while maintaining and improving the platform.
-        tags: [architecture, maintenance]
+    descriptions:
+      fr: Évolution d’une plateforme de vente en ligne de produits d’assurance, avec développement backend et évolution du modèle de données.
+      en: Enhanced an online insurance sales platform through backend development and data-model evolution.
+    technologies: [java, spring, oracle]
+    bullets: []
   - id: iclic
     company: Iclic
     location: Québec, Canada
     roles: {}
     start: "2018"
     end: "2018"
-    descriptions: {fr: Développement d’une application web/mobile B2B de réservation de transport de véhicules en Amérique du Nord., en: Developed a B2B web/mobile application for booking vehicle transportation across North America.}
-    technologies: [java, spring, vaadin, jenkins, elk]
-    bullets:
-      - id: backend
-        text:
-          fr: Développement backend Java et d’API REST, avec participation à la conception de l’application.
-          en: Developed the Java backend and REST APIs and contributed to application design.
-        tags: [java, backend, api]
-      - id: collaboration
-        text: {fr: Collaboration avec l’équipe produit et les développeurs front-end., en: Collaborated with the product team and front-end developers.}
-        tags: [collaboration]
+    descriptions:
+      fr: Développement backend Java et d’API REST pour une application B2B web/mobile de réservation de transport de véhicules en Amérique du Nord, en collaboration avec les équipes produit et front-end.
+      en: Developed the Java backend and REST APIs for a B2B web/mobile vehicle transportation booking application in North America, collaborating with product and front-end teams.
+    technologies: [java, spring, rest-api]
+    bullets: []
 education:
   - id: telecom-saint-etienne
     institution: Télécom Saint-Étienne
     degrees:
       fr: Diplôme d’ingénieur en informatique, spécialités Big Data & Image
       en: Engineering degree in Computer Science, specializing in Big Data and Image Processing
-languages: []
+projects:
+  - id: local-rag
+    name: Local RAG
+    technologies: [go, postgresql, pgvector, ollama]
+  - id: static-site-generator
+    name: Static site generator
+    technologies: [ocaml]
+languages:
+  - name: {fr: Français, en: French}
+    level: {fr: natif, en: native}
+  - name: {fr: Anglais, en: English}
+    level: {fr: professionnel, en: professional working proficiency}
 links:
   - {label: Website, url: "https://moulindavid.com/"}
   - {label: LinkedIn, url: "https://www.linkedin.com/in/davidmoulin/"}

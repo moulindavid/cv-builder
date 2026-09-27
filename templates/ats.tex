@@ -24,23 +24,27 @@
 {{end}}
 \cvsection{ {{- index .Labels "experience" -}} }
 {{range .Resume.Experience}}
-\textbf{ {{- esc .Company -}} }{{if .Location}} --- {{esc .Location}}{{end}}\\
+{{if .PageBreakBefore}}\newpage
+{{end}}\textbf{ {{- esc .Company -}} }{{if .Location}} - {{esc .Location}}{{end}}\\
 {{if text .Roles}}\textbf{ {{- esc (text .Roles) -}} }\\
 {{end}}{{esc (period .Start .End)}}
 
 {{esc (text .Descriptions)}}
-\begin{itemize}
+{{if .Bullets}}\begin{itemize}
 \setlength{\itemsep}{1pt}
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
 {{range .Bullets}}\item {{esc (text .Text)}}
 {{end}}\end{itemize}
-\textit{Technologies: {{esc (tech .Technologies)}}}\par\vspace{3pt}
+{{end}}\textit{Technologies: {{esc (tech .Technologies)}}}\par\vspace{3pt}
 {{end}}
+{{if .Resume.Projects}}\cvsection{ {{- index .Labels "projects" -}} }
+{{range .Resume.Projects}}\textbf{ {{- esc .Name -}} } - {{esc (tech .Technologies)}}\\
+{{end}}{{end}}
 \cvsection{ {{- index .Labels "education" -}} }
 {{range .Resume.Education}}\textbf{ {{- esc .Institution -}} }\\
 {{esc (text .Degrees)}}{{if .Start}} --- {{esc .Start}}{{if .End}}--{{esc .End}}{{end}}{{end}}
 {{end}}
 {{if .Resume.Languages}}\cvsection{ {{- index .Labels "languages" -}} }
-{{range .Resume.Languages}}{{esc (text .Name)}}: {{esc (text .Level)}}\\{{end}}{{end}}
+{{range .Resume.Languages}}{{esc (text .Name)}} - {{esc (text .Level)}}\\{{end}}{{end}}
 \end{document}

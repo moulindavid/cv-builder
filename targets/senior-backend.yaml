@@ -1,6 +1,33 @@
 name: senior-backend
 titles:
-  fr: Senior Backend Engineer — Java / Systèmes distribués
-  en: Senior Backend Engineer — Java / Distributed Systems
-priorities: [java, spring, distributed-systems, postgresql, messaging, cloud]
+  fr: Senior Backend Engineer - Java / Systèmes distribués
+  en: Senior Backend Engineer - Java / Distributed Systems
+priorities:
+  - java
+  - production
+  - postgresql
+  - messaging
+  - distributed-systems
+  - spring-boot
+  - spring-cloud
+  - spring-batch
+  - go
+  - rest-api
+  - bigquery
+  - mariadb
+  - oracle
+  - liquibase
+  - rabbitmq
+  - pubsub
+  - microservices
+  - async-processing
+  - gcp
+  - docker
+  - argocd
+  - jenkins
+  - aws-s3
+  - datadog
+  - elk
+  - dbt
+  - metabase
 max_bullets: 6

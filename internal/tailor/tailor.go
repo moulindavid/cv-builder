@@ -134,15 +134,26 @@ func weights(p []string) map[string]int {
 }
 
 func scoreSkill(s resume.Skill, w map[string]int) int {
-	return w[normalizeText(s.ID)] + w[normalizeText(s.Name)] + scoreTags(s.Tags, w)
+	score := max(w[normalizeText(s.ID)], w[normalizeText(s.Name)])
+	for _, tag := range s.Tags {
+		score = max(score, w[normalizeText(tag)])
+	}
+	return score
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func scoreTags(tags []string, w map[string]int) int {
-	n := 0
-	for _, t := range tags {
-		n += w[normalizeText(t)]
+	score := 0
+	for _, tag := range tags {
+		score = max(score, w[normalizeText(tag)])
 	}
-	return n
+	return score
 }
 
 func normalizeText(s string) string {

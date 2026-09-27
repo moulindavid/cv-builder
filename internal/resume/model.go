@@ -11,6 +11,7 @@ type Resume struct {
 	Skills     []Skill      `yaml:"skills"`
 	Experience []Experience `yaml:"experience"`
 	Education  []Education  `yaml:"education"`
+	Projects   []Project    `yaml:"projects"`
 	Languages  []Language   `yaml:"languages"`
 	Links      []Link       `yaml:"links"`
 	Tailoring  Tailoring    `yaml:"tailoring"`
@@ -39,16 +40,23 @@ type Bullet struct {
 	Tags []string  `yaml:"tags"`
 }
 type Experience struct {
-	ID           string    `yaml:"id"`
-	Company      string    `yaml:"company"`
-	Location     string    `yaml:"location"`
-	Roles        Localized `yaml:"roles"`
-	Start        string    `yaml:"start"`
-	End          string    `yaml:"end"`
-	Descriptions Localized `yaml:"descriptions"`
-	Technologies []string  `yaml:"technologies"`
-	Bullets      []Bullet  `yaml:"bullets"`
+	ID              string    `yaml:"id"`
+	Company         string    `yaml:"company"`
+	Location        string    `yaml:"location"`
+	Roles           Localized `yaml:"roles"`
+	Start           string    `yaml:"start"`
+	End             string    `yaml:"end"`
+	Descriptions    Localized `yaml:"descriptions"`
+	Technologies    []string  `yaml:"technologies"`
+	Bullets         []Bullet  `yaml:"bullets"`
+	PageBreakBefore bool      `yaml:"page_break_before"`
 }
+type Project struct {
+	ID           string   `yaml:"id"`
+	Name         string   `yaml:"name"`
+	Technologies []string `yaml:"technologies"`
+}
+
 type Education struct {
 	ID          string    `yaml:"id"`
 	Institution string    `yaml:"institution"`

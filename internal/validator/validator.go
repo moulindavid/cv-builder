@@ -13,7 +13,7 @@ import (
 var supportedCategories = map[string]bool{
 	"backend": true, "data": true, "distributed": true, "platform": true,
 	"production": true, "frontend": true, "tooling": true, "integrations": true,
-	"ai-assisted": true, "historical": true, "experience-only": true,
+	"ai-assisted": true, "historical": true, "experience-only": true, "project-only": true,
 }
 
 func Validate(r resume.Resume) error {
@@ -84,6 +84,17 @@ func Validate(r resume.Resume) error {
 				errs = append(errs, "bullet id is required in experience "+e.ID)
 			}
 			requireLocales(&errs, "bullet "+e.ID+"/"+b.ID, b.Text)
+		}
+	}
+	for _, project := range r.Projects {
+		add(project.ID, "project")
+		if strings.TrimSpace(project.Name) == "" {
+			errs = append(errs, "project "+project.ID+" has no name")
+		}
+		for _, id := range project.Technologies {
+			if !skillIDs[id] {
+				errs = append(errs, fmt.Sprintf("project %s references unknown skill %s", project.ID, id))
+			}
 		}
 	}
 	for _, e := range r.Education {

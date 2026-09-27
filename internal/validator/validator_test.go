@@ -33,6 +33,10 @@ func TestValidate(t *testing.T) {
 		{"duplicate external keyword", func(r *resume.Resume) { r.Tailoring.ExternalKeywords = []string{"Kafka", "kafka"} }, "duplicate tailoring"},
 		{"empty external keyword", func(r *resume.Resume) { r.Tailoring.ExternalKeywords = []string{" "} }, "cannot be empty"},
 		{"duplicate skill alias", func(r *resume.Resume) { r.Skills[0].Aliases = []string{"JVM", "jvm"} }, "duplicate alias"},
+		{"unknown project skill", func(r *resume.Resume) {
+			r.Projects = []resume.Project{{ID: "p", Name: "Project", Technologies: []string{"rust"}}}
+		}, "project p references unknown skill rust"},
+		{"project without name", func(r *resume.Resume) { r.Projects = []resume.Project{{ID: "p"}} }, "project p has no name"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

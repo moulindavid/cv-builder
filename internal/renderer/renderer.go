@@ -81,26 +81,26 @@ func Render(w io.Writer, templatePath string, r resume.Resume, lang string) erro
 	if err != nil {
 		return fmt.Errorf("parse template: %w", err)
 	}
-	labels := map[string]string{"summary": "SUMMARY", "skills": "TECHNICAL SKILLS", "experience": "EXPERIENCE", "education": "EDUCATION", "languages": "LANGUAGES"}
+	labels := map[string]string{"summary": "SUMMARY", "skills": "TECHNICAL SKILLS", "experience": "EXPERIENCE", "education": "EDUCATION", "projects": "PERSONAL PROJECTS", "languages": "LANGUAGES"}
 	if lang == "fr" {
-		labels = map[string]string{"summary": "PROFIL", "skills": "COMPÉTENCES TECHNIQUES", "experience": "EXPÉRIENCE", "education": "FORMATION", "languages": "LANGUES"}
+		labels = map[string]string{"summary": "PROFIL", "skills": "COMPÉTENCES TECHNIQUES", "experience": "EXPÉRIENCE", "education": "FORMATION", "projects": "PROJETS PERSONNELS", "languages": "LANGUES"}
 	}
 	categoryNames := map[string]resume.Localized{
 		"backend":      {"fr": "Backend", "en": "Backend"},
 		"data":         {"fr": "Données", "en": "Data"},
 		"distributed":  {"fr": "Systèmes distribués", "en": "Distributed Systems"},
 		"platform":     {"fr": "Cloud & DevOps", "en": "Cloud & DevOps"},
-		"production":   {"fr": "Production & Observabilité", "en": "Production & Observability"},
+		"production":   {"fr": "Observabilité & Analytics", "en": "Observability & Analytics"},
 		"frontend":     {"fr": "Frontend", "en": "Frontend"},
 		"tooling":      {"fr": "Outillage", "en": "Tooling"},
 		"integrations": {"fr": "Intégrations", "en": "Integrations"},
-		"ai-assisted":  {"fr": "Développement assisté par agents", "en": "AI-Assisted Engineering — Agentic Workflows"},
+		"ai-assisted":  {"fr": "Développement assisté par agents", "en": "AI-Assisted Engineering - Agentic Workflows"},
 		"historical":   {"fr": "Autres technologies", "en": "Other Technologies"},
 	}
 	orderedCategories := []string{"backend", "data", "distributed", "platform", "production", "frontend", "ai-assisted", "historical", "tooling"}
 	byCategory := make(map[string][]resume.Skill)
 	for _, skill := range r.Skills {
-		if skill.Category == "experience-only" {
+		if skill.Category == "experience-only" || skill.Category == "historical" || skill.Category == "ai-assisted" || skill.Category == "project-only" {
 			continue
 		}
 		byCategory[skill.Category] = append(byCategory[skill.Category], skill)
