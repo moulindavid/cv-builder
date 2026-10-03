@@ -5,7 +5,7 @@ profile:
     en: Senior Backend Engineer - Java / Distributed Systems
 contact:
   email: moulin.david@live.fr
-  phone: "+33679800381"
+  phone: "+33 6 79 80 03 81"
   location: Lyon, France
   address: 1 rue de la Rosière, 69008 Lyon
 summaries:
@@ -91,9 +91,9 @@ experience:
         tags: [postgresql, liquibase, database]
       - id: production
         text:
-          fr: Résolution d’un incident critique affectant une centaine de commandes de cartes, récupérées proactivement par republication Pub/Sub ; mise en place du suivi avec dbt, BigQuery et Metabase, ainsi que d’alertes Datadog, sans récidive observée depuis.
-          en: Resolved a critical incident affecting approximately 100 card orders, proactively recovered through Pub/Sub republication; implemented tracking with dbt, BigQuery, and Metabase plus Datadog alerts, with no recurrence observed since.
-        tags: [production, incident-response, pubsub, datadog, observability, dbt, bigquery, metabase]
+          fr: Mise en place de mécanismes de suivi et d’observabilité sur des traitements critiques via BigQuery, dbt, Metabase et Datadog.
+          en: Implemented tracking and observability mechanisms for critical processing using BigQuery, dbt, Metabase, and Datadog.
+        tags: [production, datadog, observability, dbt, bigquery, metabase]
       - id: architecture-business
         text:
           fr: Responsable technique principal de la brique de gestion des arrêts de travail et de leur indemnisation dans le cadre de la prévoyance collective, avec pilotage de bout en bout du besoin jusqu’à la mise en production.
